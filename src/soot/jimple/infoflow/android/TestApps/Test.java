@@ -10,32 +10,7 @@
  ******************************************************************************/
 package soot.jimple.infoflow.android.TestApps;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import javax.xml.stream.XMLStreamException;
-
 import org.xmlpull.v1.XmlPullParserException;
-
 import soot.SootMethod;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.InfoflowConfiguration.CallgraphAlgorithm;
@@ -52,12 +27,21 @@ import soot.jimple.infoflow.ipc.IIPCManager;
 import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
-import soot.jimple.infoflow.results.xml.InfoflowResultsSerializer;
 import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.jimple.infoflow.taintWrappers.ITaintPropagationWrapper;
 import soot.jimple.infoflow.util.SystemClassHandler;
 import soot.options.Options;
+
+import javax.xml.stream.XMLStreamException;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.*;
 
 public class Test {
 	
@@ -95,7 +79,7 @@ public class Test {
 				// Serialize the results if requested
 				// Write the results into a file if requested
 				if (resultFilePath != null && !resultFilePath.isEmpty()) {
-					InfoflowResultsSerializer serializer = new InfoflowResultsSerializer(cfg);
+					TestResultSerializer serializer = new TestResultSerializer(cfg);
 					try {
 						serializer.serialize(results, resultFilePath);
 					} catch (FileNotFoundException ex) {
